@@ -523,12 +523,18 @@ class Llava_OneVision(lmms):
                 gen_kwargs["max_new_tokens"] = 1024
             if "temperature" not in gen_kwargs:
                 gen_kwargs["temperature"] = 0
-            if "do_sample" not in gen_kwargs:
-                gen_kwargs["do_sample"] = False
             if "top_p" not in gen_kwargs:
                 gen_kwargs["top_p"] = None
             if "num_beams" not in gen_kwargs:
                 gen_kwargs["num_beams"] = 1
+            if "top_k" not in gen_kwargs:
+                gen_kwargs["top_k"] = 1
+            if "do_sample" not in gen_kwargs:
+                gen_kwargs["do_sample"] = False
+            if not gen_kwargs["do_sample"]:
+                gen_kwargs["temperature"] = None
+                gen_kwargs["top_p"] = None
+                gen_kwargs["top_k"] = None
 
             input_ids_list = [tokenizer_image_token(prompt, self.tokenizer, IMAGE_TOKEN_INDEX, return_tensors="pt") for prompt in question_input]
             pad_token_ids = self.tokenizer.pad_token_id if self.tokenizer.pad_token_id is not None else self.tokenizer.eos_token_id
