@@ -234,11 +234,14 @@ class Qwen2_5_VL(lmms):
                 processed_visuals = []
                 for visual in visual_list[i]:
                     if isinstance(visual, str) and visual.endswith((".mp4", ".avi", ".mov")):  # Video file
-                        vr = decord.VideoReader(visual)
-                        first_frame = vr[0].asnumpy()
-                        height, width = first_frame.shape[:2]
+                        # vr = decord.VideoReader(visual)
+                        # first_frame = vr[0].asnumpy()
+                        # height, width = first_frame.shape[:2]
                         # max_pixels = height * width
-                        processed_visuals.append({"type": "video", "video": visual, "max_pixels": self.max_pixels, "min_pixels": self.min_pixels})
+                        if self.fps:
+                            processed_visuals.append({"type": "video", "video": visual, "max_pixels": self.max_pixels, "min_pixels": self.min_pixels,"fps":self.fps})
+                        else:
+                            processed_visuals.append({"type": "video", "video": visual, "max_pixels": self.max_pixels, "min_pixels": self.min_pixels,"nframes":self.max_num_frames})
                     elif isinstance(visual, Image.Image):  # Handle both single and multiple images
                         base64_image = visual.convert("RGB")
                         buffer = BytesIO()
@@ -280,13 +283,13 @@ class Qwen2_5_VL(lmms):
 
             texts = [self.processor.apply_chat_template(msg, tokenize=False, add_generation_prompt=True) for msg in batched_messages]
             image_inputs, video_inputs = process_vision_info(batched_messages)
-            if video_inputs is not None:
-                total_frames = video_inputs[0].shape[0]
-                indices = np.linspace(0, total_frames - 1, self.max_num_frames, dtype=int)
-                # Append the last frame index if not already included
-                if total_frames - 1 not in indices:
-                    indices = np.append(indices, total_frames - 1)
-                video_inputs[0] = video_inputs[0][indices]
+            # if video_inputs is not None:
+            #     total_frames = video_inputs[0].shape[0]
+            #     indices = np.linspace(0, total_frames - 1, self.max_num_frames, dtype=int)
+            #     # Append the last frame index if not already included
+            #     if total_frames - 1 not in indices:
+            #         indices = np.append(indices, total_frames - 1)
+            #     video_inputs[0] = video_inputs[0][indices]
             inputs = self.processor(text=texts, images=image_inputs, videos=video_inputs, padding=True, return_tensors="pt")
 
             if self.device_map == "auto":
