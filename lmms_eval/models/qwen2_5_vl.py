@@ -65,6 +65,8 @@ class Qwen2_5_VL(lmms):
 
         self.use_custom_video_loader = use_custom_video_loader
         self.fps = fps
+        if self.fps:
+            self.max_num_frames = None
         # if self.fps and not self.use_custom_video_loader:
         #     raise ValueError("FPS is only applicable if use_custom_video_loader is True")
         self.max_image_size = max_image_size
@@ -99,7 +101,7 @@ class Qwen2_5_VL(lmms):
         else:
             self.reasoning_prompt = None
         self.processor = AutoProcessor.from_pretrained(pretrained, max_pixels=max_pixels, min_pixels=min_pixels)
-        self._tokenizer = AutoTokenizer.from_pretrained(pretrained)
+        self._tokenizer = AutoTokenizer.from_pretrained(pretrained,padding_side="left")
         self.system_prompt = system_prompt
         self.interleave_visuals = interleave_visuals
 

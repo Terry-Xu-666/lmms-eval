@@ -18,7 +18,7 @@ num_processes=4
 num_frames=32
 launcher=accelerate
 
-available_models="llava_one_vision_qwen2_0p5b_ov_32f,llava_one_vision_qwen2_7b_ov_32f,llava_next_video_7b_qwen2_32f,llama3_vila1p5_8b_32f,llama3_longvila_8b_128frames_32f,longva_7b_32f,internvl2_2b_8f,internvl2_8b_8f"
+available_models="llava_one_vision_qwen2_0p5b_ov_32f,llava_one_vision_qwen2_7b_ov_32f,llava_next_video_7b_qwen2_32f,llama3_vila1p5_8b_32f,llama3_longvila_8b_128frames_32f,longva_7b_32f,internvl2_2b_8f,internvl2_8b_8f,qwen2p5vl_7b"
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -131,6 +131,19 @@ for model in "${models[@]}"; do
         model_args="pretrained=OpenGVLab/InternVL2-40B,modality=video,max_frames_num=8,device_map=auto"
         num_processes=1
         ;;
+    "qwen2p5vl_7b")
+        model_family="qwen2_5_vl"
+        model_args="pretrained=Qwen/Qwen2.5-VL-7B-Instruct,attn_implementation=flash_attention_2,max_num_frames=32"
+        ;;
+    "llava_mini_7b")
+        model_family="llava_mini"
+        model_args="pretrained=ICTNLP/llava-mini-llama-3.1-8b,fps=1"
+        ;;
+    "llava_mini_7b_num")
+        model_family="llava_mini"
+        model_args="pretrained=ICTNLP/llava-mini-llama-3.1-8b,max_num_frames=32"
+        ;;
+
     *)
         echo "Unknown model: $model"
         exit -1
