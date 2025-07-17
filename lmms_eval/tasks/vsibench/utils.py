@@ -151,9 +151,9 @@ def vsibench_aggregate_results(results):
     output["object_rel_direction_accuracy"] = (
         sum(
             [
-                output.pop("object_rel_direction_easy_accuracy"),
-                output.pop("object_rel_direction_medium_accuracy"),
-                output.pop("object_rel_direction_hard_accuracy"),
+                output.pop("object_rel_direction_easy_accuracy") if "object_rel_direction_easy_accuracy" in output else 0.0, 
+                output.pop("object_rel_direction_medium_accuracy") if "object_rel_direction_medium_accuracy" in output else 0.0,
+                output.pop("object_rel_direction_hard_accuracy") if "object_rel_direction_hard_accuracy" in output else 0.0,
             ]
         )
         / 3.0

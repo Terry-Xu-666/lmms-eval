@@ -135,6 +135,10 @@ for model in "${models[@]}"; do
         model_family="qwen2_5_vl"
         model_args="pretrained=Qwen/Qwen2.5-VL-7B-Instruct,attn_implementation=flash_attention_2,max_num_frames=32"
         ;;
+    "qwen2p5vl_7b_1fps")
+        model_family="qwen2_5_vl"
+        model_args="pretrained=Qwen/Qwen2.5-VL-7B-Instruct,attn_implementation=flash_attention_2,fps=1"
+        ;;
     "llava_mini_7b")
         model_family="llava_mini"
         model_args="pretrained=ICTNLP/llava-mini-llama-3.1-8b,fps=1"
@@ -142,6 +146,22 @@ for model in "${models[@]}"; do
     "llava_mini_7b_num")
         model_family="llava_mini"
         model_args="pretrained=ICTNLP/llava-mini-llama-3.1-8b,max_num_frames=32"
+        ;;
+    "videoxl2_8b_32f")
+        model_family="videoxl2"
+        model_args="pretrained=BAAI/Video-XL-2,max_num_frames=32"
+        ;;
+    "videoxl2_8b_32f")
+        model_family="videoxl2"
+        model_args="pretrained=BAAI/Video-XL-2,max_num_frames=32"
+        ;;
+    "videoxl2_8b_1fps")
+        model_family="videoxl2"
+        model_args="pretrained=BAAI/Video-XL-2,max_num_frames=512,fps=1,enable_chunk_prefill=True"
+        ;;
+    "internvl3_8b_32f")
+        model_family="internvl3"
+        model_args="pretrained=OpenGVLab/InternVL3-8B,modality=video,max_frames_num=32"
         ;;
 
     *)

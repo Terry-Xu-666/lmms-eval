@@ -67,6 +67,8 @@ class Qwen2_5_VL(lmms):
         self.fps = fps
         if self.fps:
             self.max_num_frames = None
+        else:
+            self.max_num_frames = max_num_frames
         # if self.fps and not self.use_custom_video_loader:
         #     raise ValueError("FPS is only applicable if use_custom_video_loader is True")
         self.max_image_size = max_image_size
@@ -94,7 +96,6 @@ class Qwen2_5_VL(lmms):
         self._model = Qwen2_5_VLForConditionalGeneration.from_pretrained(pretrained, **model_kwargs).eval()
         self.max_pixels = max_pixels
         self.min_pixels = min_pixels
-        self.max_num_frames = max_num_frames
 
         if reasoning_prompt:
             self.reasoning_prompt = reasoning_prompt.replace("\\n", "\n")

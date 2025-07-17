@@ -27,6 +27,7 @@ AVAILABLE_MODELS = {
     "internvideo2": "InternVideo2",
     "internvl": "InternVLChat",
     "internvl2": "InternVL2",
+    "internvl3": "InternVL3",
     "llama_vid": "LLaMAVid",
     "llama_vision": "LlamaVision",
     "llava": "Llava",
@@ -74,6 +75,7 @@ AVAILABLE_MODELS = {
     "whisper_vllm": "WhisperVllm",
     "vora": "VoRA",
     "llava_mini": "LLaVAMini",
+    "videoxl2": "VideoXL2",
 }
 
 

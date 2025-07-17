@@ -1,4 +1,5 @@
 **/.cache
+launch.sh
 env
 *.pyc
 output/
