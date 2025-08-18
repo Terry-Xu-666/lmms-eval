@@ -14,7 +14,7 @@ export GOOGLE_API_KEY="" # API KEY FOR GOGOLE GEMINI
 
 benchmark=vsibench
 output_path=logs/$(TZ="America/New_York" date "+%Y%m%d")
-num_processes=4
+num_processes=1
 num_frames=32
 launcher=accelerate
 
@@ -162,6 +162,18 @@ for model in "${models[@]}"; do
     "internvl3_8b_32f")
         model_family="internvl3"
         model_args="pretrained=OpenGVLab/InternVL3-8B,modality=video,max_frames_num=32"
+        ;;
+    "nvila_8b_32f")
+        model_family="nvila"
+        model_args="pretrained=Efficient-Large-Model/NVILA-8B,max_frames_num=32"
+        ;;
+    "long3d_l3d_32f")
+        model_family="long3d"
+        model_args="pretrained=/local_data/dev_l3dvlm/cache/failure/train_l3d/ckpt-epoch-0,max_num_frames=32,model_type=l3d"
+        ;;
+    "long3d_nvila_32f")
+        model_family="long3d"
+        model_args="pretrained=/local_data/dev_l3dvlm/cache/nvila_train,max_num_frames=32,model_type=nvila"
         ;;
 
     *)

@@ -79,6 +79,8 @@ AVAILABLE_SIMPLE_MODELS = {
     "vora": "VoRA",
     "llava_mini": "LLaVAMini",
     "videoxl2": "VideoXL2",
+    "nvila": "NVILA",
+    "long3d": "Long3D",
 }
 
 AVAILABLE_CHAT_TEMPLATE_MODELS = {"llava_hf": "LlavaHf", "qwen2_5_vl": "Qwen2_5_VL", "openai_compatible": "OpenAICompatible", "vllm": "VLLM", "sglang": "Sglang", "huggingface": "Huggingface", "async_openai": "AsyncOpenAIChat"}
