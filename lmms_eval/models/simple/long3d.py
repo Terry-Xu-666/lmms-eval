@@ -27,6 +27,7 @@ from lmms_eval.models.model_utils.reasoning_model_utils import (
 try:
     from long3d.modeling_l3d import L3DForCausalLM
     from long3d.modeling_nvila import NVILAForCausalLM
+    from long3d.modeling_spatial import SpatialForCausalLM
 except ImportError:
     eval_logger.warning("Failed to import qwen_vl_utils; Please install it via `pip install qwen-vl-utils`")
 
@@ -79,6 +80,8 @@ class Long3D(lmms):
             self._model = L3DForCausalLM.from_pretrained(pretrained, attn_implementation=attn_implementation).to(self._device).eval()
         elif model_type == "nvila":
             self._model = NVILAForCausalLM.from_pretrained(pretrained, attn_implementation=attn_implementation).to(self._device).eval()
+        elif model_type == "spatial":
+            self._model = SpatialForCausalLM.from_pretrained(pretrained, attn_implementation=attn_implementation).to(self._device).eval()
         else:
             raise ValueError(f"Invalid model type: {model_type}")
        

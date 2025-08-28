@@ -169,11 +169,15 @@ for model in "${models[@]}"; do
         ;;
     "long3d_l3d_32f")
         model_family="long3d"
-        model_args="pretrained=/local_data/dev_l3dvlm/cache/failure/train_l3d/ckpt-epoch-0,max_num_frames=32,model_type=l3d"
+        model_args="pretrained=/local_data/dev_l3dvlm/cache/l3dvlm_30k_llm_v4/ckpt-epoch-0,max_num_frames=32,model_type=l3d"
         ;;
     "long3d_nvila_32f")
         model_family="long3d"
-        model_args="pretrained=/local_data/dev_l3dvlm/cache/nvila_train,max_num_frames=32,model_type=nvila"
+        model_args="pretrained=/local_data/dev_l3dvlm/cache/nvila_30k_llm/ckpt-epoch-0,max_num_frames=32,model_type=nvila"
+        ;;
+    "long3d_spatial_32f")
+        model_family="long3d"
+        model_args="pretrained=/nfs/l3dvlm/ckpt/spatial_30k_llm,max_num_frames=32,model_type=spatial"
         ;;
 
     *)
