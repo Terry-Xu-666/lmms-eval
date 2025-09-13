@@ -93,6 +93,22 @@ for model in "${models[@]}"; do
         model="llava_next_video_7b_qwen2_${num_frames}f"
         model_args="pretrained=lmms-lab/LLaVA-NeXT-Video-7B-Qwen2,video_decode_backend=decord,conv_template=qwen_1_5,max_frames_num=$num_frames"
         ;;
+    "llama_vid_7b_32f")
+        model_family="llama_vid"
+        model="llama_vid_7b_${num_frames}f"
+        model_args="pretrained=YanweiLi/llama-vid-7b-full-224-video-fps-1,num_frames=$num_frames"
+        ;;
+
+    "llama_vid_7b_1fps")
+        model_family="llama_vid"
+        model="llama_vid_7b_1fps"
+        model_args="pretrained=YanweiLi/llama-vid-7b-full-224-video-fps-1,num_frames=256,fps=1"
+        ;;
+    "longva_7b_32f")
+        model_family="longva"
+        model="longva_7b_${num_frames}f"
+        model_args="pretrained=lmms-lab/LongVA-7B,conv_template=qwen_1_5,video_decode_backend=decord,max_frames_num=$num_frames,model_name=llava_qwen"
+        ;;
     "llava_next_video_72b_qwen2_32f")
         model_family="llava_vid"
         model_args="pretrained=lmms-lab/LLaVA-NeXT-Video-72B-Qwen2,video_decode_backend=decord,conv_template=qwen_1_5,max_frames_num=32,device_map=auto"
@@ -167,17 +183,36 @@ for model in "${models[@]}"; do
         model_family="nvila"
         model_args="pretrained=Efficient-Large-Model/NVILA-8B,max_frames_num=32"
         ;;
+    "vlm_3r_8b_32f")
+        model_family="vlm_3r"
+        model_args="pretrained=Journey9ni/vlm-3r-llava-qwen2-lora,model_base=lmms-lab/LLaVA-NeXT-Video-7B-Qwen2,conv_template=qwen_1_5,max_frames_num=32"
+        ;;
+
+    "spatial_mllm_7b_32f")
+        model_family="spatial_mllm"
+        model_args="pretrained=Diankun/Spatial-MLLM-subset-sft,max_num_frames=32"
+        ;;
+
+    "longvila_8b_32f")
+        model_family="nvila"
+        model_args="pretrained=Efficient-Large-Model/qwen2-7b-longvila-256f,max_frames_num=32"
+        ;;
     "long3d_l3d_32f")
         model_family="long3d"
-        model_args="pretrained=/local_data/dev_l3dvlm/cache/l3dvlm_30k_llm_v4/ckpt-epoch-0,max_num_frames=32,model_type=l3d"
+        model_args="pretrained=/local_data/ty/dev_l3dvlm/cache/l3dvlm_30k_v2/ckpt-epoch-0,max_num_frames=32,model_type=l3d"
         ;;
     "long3d_nvila_32f")
         model_family="long3d"
-        model_args="pretrained=/local_data/dev_l3dvlm/cache/nvila_30k_llm/ckpt-epoch-0,max_num_frames=32,model_type=nvila"
+        model_args="pretrained=/local_data/ty/dev_l3dvlm/cache/nvila_30k/ckpt-epoch-0,max_num_frames=32,model_type=nvila"
         ;;
-    "long3d_spatial_32f")
+    "long3d_spatial_32f_t8")
         model_family="long3d"
-        model_args="pretrained=/nfs/l3dvlm/ckpt/spatial_30k_llm,max_num_frames=32,model_type=spatial"
+        model_args="pretrained=/local_data/ty/dev_l3dvlm/cache/spatial_30k/ckpt-epoch-0,max_num_frames=32,model_type=spatial"
+        ;;
+
+    "long3d_l3d_128f")
+        model_family="long3d"
+        model_args="pretrained=/local_data/ty/dev_l3dvlm/cache/l3dvlm_30k/ckpt-epoch-0,max_num_frames=128,model_type=l3d"
         ;;
 
     *)

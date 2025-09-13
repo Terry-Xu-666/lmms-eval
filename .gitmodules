@@ -4,3 +4,18 @@
 [submodule "LLaVA-Mini"]
 	path = LLaVA-Mini
 	url = https://github.com/ictnlp/LLaVA-Mini.git
+[submodule "LLaMA-VID"]
+	path = LLaMA-VID
+	url = https://github.com/dvlab-research/LLaMA-VID.git
+[submodule "longva"]
+	path = longva
+	url = https://github.com/EvolvingLMMs-Lab/LongVA.git
+[submodule "vila"]
+	path = vila
+	url = https://github.com/NVlabs/VILA.git
+[submodule "vlm3r"]
+	path = vlm3r
+	url = https://github.com/VITA-Group/VLM-3R.git
+[submodule "spatial-mllm"]
+	path = spatial-mllm
+	url = https://github.com/diankun-wu/Spatial-MLLM.git

@@ -37,7 +37,7 @@ try:
         tokenizer_image_token,
     )
 except ImportError:
-    eval_logger.debug("LLaMA-Video is not installed. Please install LLaMA-Video to use this model.")
+    raise ImportError("LLaMA-Video is not installed. Please install LLaMA-Video to use this model.")
 
 
 @register_model("llama_vid")
@@ -59,6 +59,7 @@ class LLaMAVid(lmms):
         use_cache=True,
         truncate_context=False,
         num_frames: int = 100,
+        fps: int = None,
         **kwargs,
     ) -> None:
         super().__init__()
@@ -79,6 +80,8 @@ class LLaMAVid(lmms):
         self.model_path = snapshot_download(self.pretrained)
         self.model_name = get_model_name_from_path(pretrained)
         self.num_frames = num_frames
+        self.fps = fps
+        print(f'num_frames: {self.num_frames}, fps: {self.fps}')
         if not os.path.exists("./model_zoo/LAVIS/eva_vit_g.pth") and accelerator.is_main_process:
             eval_logger.info("\n\n Eva Encoder is not found for LLaMA-VID. Download automatically to the folder ./model_zoo/LAVIS")
             cache_path = "model_zoo/LAVIS"
@@ -219,7 +222,7 @@ class LLaMAVid(lmms):
             visuals = self.flatten(visuals)
             videos = []
             for visual in visuals:
-                video = read_video_pyav(visual, num_frm=self.num_frames)
+                video = read_video_pyav(visual, num_frm=self.num_frames, fps=self.fps)
                 video = self.image_processor.preprocess(video, return_tensors="pt")["pixel_values"].half().cuda()
                 video = [video]
                 videos += video
