@@ -46,7 +46,7 @@ class Qwen2_5_VL(lmms):
         use_cache=True,
         attn_implementation: Optional[str] = None,
         min_pixels: int = 256 * 28 * 28,
-        max_pixels: int = 1605632,
+        max_pixels: int = 256 * 28 * 28,
         max_num_frames: int = 32,
         use_custom_video_loader: Optional[bool] = False,
         fps: Optional[float] = None,  # Only applicable if use_custom_video_loader is True

@@ -203,16 +203,16 @@ for model in "${models[@]}"; do
         ;;
     "long3d_nvila_32f")
         model_family="long3d"
-        model_args="pretrained=/local_data/ty/dev_l3dvlm/cache/nvila_30k/ckpt-epoch-0,max_num_frames=32,model_type=nvila"
+        model_args="pretrained=../dev_l3dvlm/cache/nvila,max_num_frames=32"
         ;;
-    "long3d_spatial_32f_t8")
+    "long3d_spatial_32f")
         model_family="long3d"
-        model_args="pretrained=/local_data/ty/dev_l3dvlm/cache/spatial_30k/ckpt-epoch-0,max_num_frames=32,model_type=spatial"
+        model_args="pretrained=../dev_l3dvlm/cache/vlm,max_num_frames=32"
         ;;
 
-    "long3d_l3d_128f")
+    "long3d_l3d_tc")
         model_family="long3d"
-        model_args="pretrained=/local_data/ty/dev_l3dvlm/cache/l3dvlm_30k/ckpt-epoch-0,max_num_frames=128,model_type=l3d"
+        model_args="pretrained=../dev_l3dvlm/cache/tc,max_num_frames=128"
         ;;
 
     *)

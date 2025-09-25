@@ -25,11 +25,11 @@ from lmms_eval.models.model_utils.reasoning_model_utils import (
 )
 
 try:
-    from long3d.modeling_l3d import L3DForCausalLM
-    from long3d.modeling_nvila import NVILAForCausalLM
-    from long3d.modeling_spatial import SpatialForCausalLM
+   
+    from src.modeling_nvila import NVILAForCausalLM
+   
 except ImportError:
-    eval_logger.warning("Failed to import qwen_vl_utils; Please install it via `pip install qwen-vl-utils`")
+    eval_logger.warning("Failed to import src;")
 
 
 @register_model("long3d")
@@ -45,7 +45,6 @@ class Long3D(lmms):
         device: Optional[str] = "cuda",
         device_map: Optional[str] = "auto",
         batch_size: Optional[Union[int, str]] = 1,
-        model_type: Optional[str] = "l3d",
         attn_implementation: Optional[str] = "flash_attention_2",
         max_num_frames: int = 32,
         **kwargs,
@@ -76,16 +75,11 @@ class Long3D(lmms):
         # Add attention implementation if specified
         
 
-        if model_type == "l3d":
-            self._model = L3DForCausalLM.from_pretrained(pretrained, attn_implementation=attn_implementation).to(self._device).eval()
-        elif model_type == "nvila":
-            self._model = NVILAForCausalLM.from_pretrained(pretrained, attn_implementation=attn_implementation).to(self._device).eval()
-        elif model_type == "spatial":
-            self._model = SpatialForCausalLM.from_pretrained(pretrained, attn_implementation=attn_implementation).to(self._device).eval()
-        else:
-            raise ValueError(f"Invalid model type: {model_type}")
+        
+        self._model = NVILAForCausalLM.from_pretrained(pretrained, attn_implementation=attn_implementation).to(self._device).eval()
        
-        self.model.max_num_frames = max_num_frames
+       
+        # self.model.config.num_video_frames = max_num_frames
         
         self._config = self.model.config
         self.batch_size_per_gpu = int(batch_size)
@@ -194,19 +188,18 @@ class Long3D(lmms):
 
             batched_messages = []
             for i, context in enumerate(contexts):
-                message = {'value':[]}
+                message = []
                 if "<image>" in context:
                     context = context.replace("<image>", "")
                 for visual in visual_list[i]:
-                    message['value'].append(visual)
+                    message.append({'type': 'video', 'value': visual})
                 
-                message['value'].append(context)
+                message.append({'type': 'text', 'value': context})
 
 
 
                 batched_messages.append(message)
-            print(batched_messages)
-
+            
 
             # Set default generation kwargs
             default_gen_kwargs = {
@@ -227,8 +220,10 @@ class Long3D(lmms):
             current_gen_kwargs.pop("until")
             current_gen_kwargs.pop("top_p")
 
+            inputs = self.model.media_processor(batched_messages)
+
             answers = self.model.generate(
-                prompt=batched_messages,
+                **inputs,
                 **current_gen_kwargs
             )
 
