@@ -201,9 +201,13 @@ for model in "${models[@]}"; do
         model_family="long3d"
         model_args="pretrained=/local_data/ty/dev_l3dvlm/cache/l3dvlm_30k_v2/ckpt-epoch-0,max_num_frames=32,model_type=l3d"
         ;;
-    "long3d_nvila_8f")
+    "long3d_nvila_32f")
         model_family="long3d"
-        model_args="pretrained=../dev_l3dvlm/cache/train/ckpt-epoch-0,max_num_frames=8"
+        model_args="pretrained=../dev_l3dvlm/cache/train/ckpt-epoch-0,max_num_frames=32"
+        ;;
+    "long3d_original_nvila_32f")
+        model_family="long3d"
+        model_args="pretrained=../dev_l3dvlm/cache/nvila,max_num_frames=32"
         ;;
     "long3d_spatial_32f")
         model_family="long3d"
