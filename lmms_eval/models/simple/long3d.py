@@ -32,6 +32,26 @@ except ImportError:
     eval_logger.warning("Failed to import src;")
 
 
+
+def print_medias(medias, show_detail: bool = True):
+    print(f"  medias: count = {len(medias)}")
+    if not show_detail:
+        return
+    for i, m in enumerate(medias):
+        mtype = m.get("type")
+        pos = m.get("pos")
+        pv = m.get("pixel_values")
+        shape = None
+        if torch.is_tensor(pv):
+            shape = tuple(pv.shape)
+        else:
+            # 可能是 list[Tensor]，或别的结构
+            try:
+                shape = [tuple(t.shape) for t in pv]  # 尝试列表形状
+            except Exception:
+                shape = type(pv).__name__
+        print(f"    [{i}] type={mtype} pos={pos} pixel_values.shape={shape}")
+
 @register_model("long3d")
 class Long3D(lmms):
     """
@@ -79,7 +99,7 @@ class Long3D(lmms):
         self._model = NVILAForCausalLM.from_pretrained(pretrained, attn_implementation=attn_implementation).to(self._device).eval()
        
        
-        # self.model.config.num_video_frames = max_num_frames
+        self.model.media_processor.max_num_frames = max_num_frames
         
         self._config = self.model.config
         self.batch_size_per_gpu = int(batch_size)
@@ -189,8 +209,10 @@ class Long3D(lmms):
             batched_messages = []
             for i, context in enumerate(contexts):
                 message = []
-                if "<image>" in context:
+                if "<image>\n" in context:
                     context = context.replace("<image>", "")
+                if "<video>\n" in context:
+                    context = context.replace("<video>", "")
                 for visual in visual_list[i]:
                     message.append({'type': 'video', 'value': visual})
                 
@@ -221,6 +243,14 @@ class Long3D(lmms):
             current_gen_kwargs.pop("top_p")
 
             inputs = self.model.media_processor(batched_messages)
+            
+            input_ids_list = inputs["input_ids"]
+            labels_list = inputs["labels"]
+            medias_list = inputs["medias"]
+
+            
+            for i in range(len(input_ids_list)):
+                print_medias(medias_list[i])
 
             answers = self.model.generate(
                 **inputs,

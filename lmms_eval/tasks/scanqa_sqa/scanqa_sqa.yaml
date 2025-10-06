@@ -1,0 +1,5 @@
+group: scanqa_sqa
+task:
+- scanqa
+- sqa_test
+- sqa_val

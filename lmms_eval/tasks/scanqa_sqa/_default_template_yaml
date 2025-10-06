@@ -1,0 +1,14 @@
+dataset_path: TerryXu666/eval_scanqa_sqa
+dataset_kwargs:
+  token: True
+  video: True
+  cache_dir: scanqa_sqa
+metadata:
+  version: 0.0.1
+  load_package: True
+generation_kwargs:
+  max_new_tokens: 16
+  temperature: 0
+  top_p: 1.0
+  num_beams: 1
+  do_sample: false
